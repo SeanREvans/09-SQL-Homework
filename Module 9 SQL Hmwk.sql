@@ -51,5 +51,26 @@ SET first_name = "HARPO"
 WHERE first_name = "GROUCHO" AND last_name = "WILLIAMS";
 
 #4d Revert "Groucho Willams" BACK to "Harpo Williams"
+UPDATE actor
+SET first_name = "GROUCHO"
+WHERE first_name = "HARPO" AND last_name = "WILLIAMS";
 
+#5a Locate the schema of the address table
+SHOW CREATE TABLE address;
+
+#6a Use JOIN to find the "First Name", "Last Name" and "Address" of all staff members
+SELECT first_name, last_name, address
+FROM staff s
+JOIN address a
+ON s.address_id = a.address_id;
+
+#6b Use JOIN to find the amount of payments by each staff in August 2005
+SELECT s.first_name, s.last_name, SUM(p.amount) AS "Total Payments"
+FROM (
+	SELECT staff_id, amount, payment_date
+    FROM payment
+    WHERE payment_date LIKE '2005-08%') AS p
+JOIN staff s 
+ON p.staff_id=s.staff_ID
+GROUP BY s.first_name, s.last_name;
 
